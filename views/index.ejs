@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="main h-screen w-full flex bg-blue-100 items-center justify-center">
+      <form action="/register" method="post" class="register shadow-2xl  flex flex-col  justify-center gap-2 p-5 bg-blue-100 rounded-lg  w-[27%]">
+        <label class="font-medium " for="">Username</label>
+        <input name="username" class="px-2 py-1 rounded mb-3 placeholder:text-blue-300 placeholder:italic font-medium text-blue-600 bg-transparent ring-2 ring-offset-2 ring-offset-blue-200 ring-blue-400 outline-none" type="text" required placeholder="username">
+        <label class="font-medium " for="">Password</label>
+        <input name="password" class="px-2 py-1 rounded mb-3 placeholder:text-blue-300 placeholder:italic font-medium text-blue-600 bg-transparent ring-2 ring-offset-2 ring-offset-blue-200 ring-blue-400 outline-none" type="password" required placeholder="password">
+        <label class="font-medium " for="">Email</label>
+        <input name="email" class="px-2 py-1 rounded mb-3 placeholder:text-blue-300 placeholder:italic font-medium text-blue-600 bg-transparent ring-2 ring-offset-2 ring-offset-blue-200 ring-blue-400 outline-none" type="email" placeholder="email">
+        <label class="font-medium " for="">Acount Type</label>
+        <select  class=" text-blue-600 font-medium px-2 py-1 rounded ring-2 ring-offset-2 ring-blue-400 ring-offset-blue-200 bg-transparent outline-none" name="type" id="">
+          <option class="text-blue-600 font-medium py-1 px-1 bg-[rgba(0,0,0,.1)]" value="buyer"> Buyer</option>
+          <option class="text-blue-600 font-medium py-1 px-1 bg-[rgba(0,0,0,.5)]" value="seller">Seller</option>
+        </select>
+        <input class="px-4 py-2 w-max mx-auto rounded bg-blue-500 text-white mt-5 cursor-pointer font-medium" type="submit" value="Register">
+        <p class="text-center font-medium ">Already have a account? <a class="text-blue-600" href="/render/login">Login</a> OR <a href="/login/federated/google" class=" block w-[40%] mx-auto mt-2 rounde-xl text-blue-600 bg-blue-200 p-1 px-2 shadow-xl "><i class="ri-google-fill"></i>(only Buyer)</a></p>
+
+      </form>
+    </div>
+</body>
+</html>
