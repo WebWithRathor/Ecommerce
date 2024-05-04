@@ -7,15 +7,11 @@ const userModel = require('../models/userModel.js');
 passport.authenticate(new localStrategy("local",userModel.authenticate()));
 
 router.post('/register', function (req, res, next) {
-  const userData = new userModel({
-    username: req.body.username,
-    type: req.body.type,
-    email: req.body.email
-  })
+  const userData = new userModel(req.body)
   userModel.register(userData, req.body.password)
     .then(function (registereduser) {
       passport.authenticate('local')(req, res, function () {
-        res.redirect('/home')
+        res.redirect('/render/home')
       })
     })
 })
