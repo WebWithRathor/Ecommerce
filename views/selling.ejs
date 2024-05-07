@@ -1,0 +1,110 @@
+<%include ./partials/header.ejs%>
+
+    <!-- Selling Section -->
+    <section class="py-12 pl-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between">
+                <!-- Left Section (Product Upload Form) -->
+                <div class="w-1/2 pr-8">
+                    <h2 class="text-2xl font-semibold mb-6">Upload New Product</h2>
+                    <form action="/sellproduct" method="post" enctype="multipart/form-data"
+                        class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="productName">Product
+                                Name</label>
+                            <input id="productName" name="productName"
+                                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                type="text" placeholder="Enter product name">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="productName">Product
+                                Price</label>
+                            <input id="productprice" name="productprice"
+                                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                type="text" oninput="checkPrice(this)" placeholder="Enter product price">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="productDescription">Product
+                                Description</label>
+                            <textarea id="productDescription" name="productDescription"
+                                class="resize-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                rows="4" placeholder="Enter product description"></textarea>
+                        </div>
+                        <!-- Add more fields as needed -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="productImage">Product
+                                Images</label>
+                            <input id="productImage" name="productImage" type="file"
+                                onchange="handleFileSelection(event)" multiple
+                                class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="mt-8">
+                            <button
+                                class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                type="submit">Upload Product</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Right Section (Existing Products) -->
+                <div class="w-1/2">
+                    <h2 class="text-2xl font-semibold mb-6">Existing Products</h2>
+                    <div class="flex scrollbar items-center h-[85%] overflow-x-auto gap-8">
+                        <!-- Sample Product Card -->
+                        <% products.forEach(function(product){%>
+                            <div class="bg-white shrink-0 w-1/3 p-6 h-fit rounded-lg shadow-md">
+                                <img src="/images/uploads/<%=product.images[0]%>" alt="Product Image"
+                                class=" h-[50%] object-cover mb-4 rounded-md">
+                                <h3 class="text-lg font-semibold mb-2"><%=product.productname%></h3>
+                                <p class="text-gray-600"><%=product.description%></p>
+                                <p class="text-gray-700 mt-2">$<%=product.price%></p>
+                                <a href="/show/<%=product._id%>">
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4 block">View
+                                        Details</button>
+                                </a>
+                                </div>
+                                <!-- Repeat this product card structure for each existing product -->
+                                <%})%>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+         function checkPrice(input) {
+        input.value = input.value.replace(/\D/g, '');
+
+        let price = parseInt(input.value);
+
+        if (price > 100000) {
+            input.value = "100000";
+            alert("Price cannot exceed 100,000.");
+        }
+    }
+        function handleFileSelection(event) {
+            const selectedFiles = event.target.files;
+            if (selectedFiles.length < 3) {
+                alert("Please select at least 3 files.");
+                event.target.value = ""; // Clear the file input field
+                return;
+            }
+            if (selectedFiles.length > 5) {
+                alert("Please select no more than 5 files.");
+                event.target.value = ""; // Clear the file input field
+                return;
+            }
+            // Process selected files...
+        }
+    </script>
+
+    </script>
+    </body>
+
+    </html>
