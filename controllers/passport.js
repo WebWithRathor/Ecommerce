@@ -4,7 +4,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const userModel = require('../models/userModel.js');
 
-passport.authenticate(new localStrategy("local",userModel.authenticate()));
+passport.use(new localStrategy(userModel.authenticate()));
 
 router.post('/register', function (req, res, next) {
   const userData = new userModel(req.body)
@@ -17,8 +17,8 @@ router.post('/register', function (req, res, next) {
 })
 
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/home',
-  failureRedirect: '/login',
+  successRedirect: '/render/home',
+  failureRedirect: '/render/login',
 }), function (req, res) { })
 
 router.get('/logout', function (req, res, next) {

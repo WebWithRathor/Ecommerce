@@ -4,9 +4,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const expressSession = require('express-session');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./models/userModel.js');
+const passport = require('passport');
 require('./models/connection.js').DBconnect();
 
 const app = express();
@@ -15,11 +17,15 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(require('express-session')({
+app.use(expressSession({
   secret: process.env.secret,
   resave: false,
   saveUninitialized: false
 }))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(usersRouter.serializeUser());
+passport.deserializeUser(usersRouter.deserializeUser());
 
 app.use(logger('dev'));
 app.use(express.json());

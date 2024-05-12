@@ -1,0 +1,19 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function addtocart(id){
+        axios.post(`/product/addtocart` ,{
+            productId:id
+        }).then(function(response){
+            if(!response.data){
+                alert('already In Cart.')
+            }
+        })
+    }
+
+    function updatePrice(elem,id){
+        axios.get('/update',{
+            id:id,
+            qty:elem.parentNode.querySelector('input').value
+        })
+    }
+</script>
