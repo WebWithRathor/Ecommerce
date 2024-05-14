@@ -1,0 +1,18 @@
+    <!-- Profile Section -->
+    <section class="py-12 px-4">
+        <div class="container mx-auto">
+            <div class="flex ">
+                <!-- Left Section (Options) -->
+                <div class="w-1/4 pr-8 ">
+                    <h2 class="text-2xl font-semibold mb-6">Profile Options</h2>
+                    <ul class="">
+                        <li><a href="#" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Edit Profile</a></li>
+                        <li><a href="/user/cart" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Cart</a></li>
+                        <li><a href="/user/orders" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Orders</a></li>
+                        <li><a href="/user/wishlist" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Wishlist</a></li>
+                <%if(loggedUser.accountType === 'Seller'){%>
+                    <li><a href="/sell" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Add product</a></li>
+                    <%}%>
+                        <li><a href="/passport/logout" class="block  font-medium border-b hover:bg-gray-400 py-2 px-1 hover:text-white">Logout</a></li>
+                    </ul>
+                </div>

@@ -13,6 +13,11 @@ function isLoggedIn(req, res, next) {
 router.get('/login', (req, res) => {
     res.render('login.ejs');
 });
+
+
+
+
+
 router.get('/home',isLoggedIn,async (req, res) => {
     const loggedUser = await userModel.findOne({username:req.user.username});
     const products = await productModel.find();

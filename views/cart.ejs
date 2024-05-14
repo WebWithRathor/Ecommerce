@@ -1,5 +1,34 @@
 <%include ./partials/header.ejs %>
-<div class="content bg-red-500 w-full min-h-[60vh] md:min-h-[49vh]">
-  
+<div class="content w-full" >
+    <div class="bg-white shadow-md rounded-lg p-6 m-3 mt-5">
+        <h2 class="text-xl font-semibold mb-4">Shopping Cart</h2>
+        <div class="border-b border-gray-200 pb-4 mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <div class="flex items-center">
+                        <img src="/images/cart.image" alt="Product" class="w-16 h-16 mr-5 rounded-full object-cover">
+                        <div>
+                            <h3 class="font-semibold">
+                                cart.productname
+                            </h3>
+                            <p class="text-gray-600">Price: cart.price
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="/remove/cart._id">
+                            <i class="ri-delete-bin-line mr-2"></i>
+                        </a>
+                        <input type="number" min="1" class="w-12 h-8 border border-gray-300 rounded-md px-2" value="1">
+                    </div>
+                </div>
+
+
+        </div>
+        <div class="flex justify-between items-center">
+            <p class="text-lg font-semibold">Total:</p>
+            <p class="text-lg amount">$total
+            </p>
+        </div>
+        <button id="rzp-button1" class="bg-blue-500 text-white rounded-md px-4 py-2 mt-4 inline-block">Checkout</button>
+    </div>
 </div>
-<%include ./partials/footer.ejs %>

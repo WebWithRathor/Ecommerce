@@ -63,9 +63,8 @@
                                 <div class="buttons flex gap-2 items-center">
                                     <a href="/product/show/<%=product._id%>" >
                                         <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-3 rounded mt-4 block">View Details</button>
-                                    </a><a href="/product/remove/<%=product._id%>">
-                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-3 rounded mt-4 block">Remove</button>
                                     </a>
+                                    </button>
                                 </div>
                             </div>
                         <%})%>
@@ -83,7 +82,6 @@
             <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
         </div>
     </footer>
-
     <script>
          function checkPrice(input) {
         input.value = input.value.replace(/\D/g, '');
@@ -118,6 +116,7 @@
         const selectFiles = (btn)=>{
             btn.parentNode.querySelector('input').click();
         }
+
     </script>
 
     </script>

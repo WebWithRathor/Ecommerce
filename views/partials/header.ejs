@@ -8,6 +8,9 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    .scrollbar::-webkit-scrollbar{
+      display: none;
+    }
   </style>
 </head>
 
@@ -27,10 +30,10 @@
 
         <ul class="flex space-x-4">
           <li><a href="/render/sell" class="text-gray-800 hidden md:inline-block font-medium hover:text-gray-600">Sell</a></li>
-          <li><a href="/render/cart" class="text-gray-800 hidden md:inline-block font-medium hover:text-gray-600"><i
+          <li><a href="/user/cart" class="text-gray-800 hidden md:inline-block font-medium hover:text-gray-600"><i
                 class="ri-shopping-cart-line"></i>
               Cart</a></li>
-          <a href="/render/profile"
+          <a href="/user/profile"
             class="inline-block ext-gray-800 font-medium hover:text-gray-600 w-7 h-7 bg-red-500 rounded-full overflow-hidden">
             <img class="h-full w-full object-cover" src="" alt="">
           </a>
