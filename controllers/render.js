@@ -31,6 +31,9 @@ router.get('/sell', isLoggedIn, async (req, res) => {
     res.render('selling.ejs', { products });
 });
 
+router.get('/otp', isLoggedIn, async (req, res) => {
+    res.render('otp.ejs');
+});
 
 
 

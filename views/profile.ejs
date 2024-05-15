@@ -7,37 +7,37 @@
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <form method="post" action="/user/edit" enctype="multipart/form-data" >
                     <div class="mb-4 flex items-center gap-3">
-                        <img src="/images/<%= loggedUser.profileImg ? loggedUser.profileImg : "def.jpg" %>" class="h-14 bg-red-500 aspect-square rounded-full" alt="">
+                        <img src="/images/<%= loggedUser.profileImg ? loggedUser.profileImg : 'def.jpg' %>" class="h-14 bg-red-500 aspect-square rounded-full object-cover" alt="">
                         <input hidden onchange="showImg(this)" type="file" name="profileImg">
                         <h1 onclick="selectImg(this)"
                             class="px-3 py-1.5 text-sm font-medium bg-gray-400 rounded text-white">Change Image</h1>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
-                        <input id="username" name="username"
+                        <input required id="username" name="username"
                             class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             type="text" value="<%= loggedUser.username%>">
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email
                             Address</label>
-                        <input id="email" name="email"
+                        <input required id="email" name="email"
                             class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             type="email" value="<%= loggedUser.email%>">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" >
                             Address</label>
-                        <input id="address" name="address"
+                        <input id="address" name="address" placeholder="Enter your address"
                             class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            type="address" value="<%=loggedUser.address ? loggedUser.address : "john.doe@example.com" %>"
+                            type="address" value="<%=loggedUser.address ? loggedUser.address : '' %>"
                         >
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">Full Name</label>
-                        <input id="fullName" name="fullname"
+                        <input id="fullName" name="fullname" placeholder="Enter full name"
                             class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text" value="<%= loggedUser.fullname ? loggedUser.fullname : 'john doe' %>">
+                            type="text" value="<%= loggedUser.fullname ? loggedUser.fullname : '' %>">
                     </div>
                     <button id="submitButton" disabled type="submit"
                         class=" px-5 py-2 font-medium rounded text-white bg-zinc-500">Update</button>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+  <style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="main h-screen w-full flex bg-blue-100 items-center justify-center">
+    <form action="/passport/verify" method="post"
+      class=" shadow-2xl  flex flex-col  justify-center gap-2 p-5 bg-blue-100 rounded-lg  w-[27%]">
+      <h1 class="text-2xl mb-3 font-medium">OTP verification</h1>
+      <label class="font-medium mb-1" for="">Please enter 4 digit OTP</label>
+      <input name="otp" type="number"
+        class="px-2 py-1 rounded mb-3 placeholder:text-blue-300  font-medium text-blue-600 bg-transparent ring-2 ring-offset-2 ring-offset-blue-200 ring-blue-400 outline-none"
+        type="text" oninput="update(this)" required placeholder="OTP">
+      <input id="submit"
+        class="px-2 py-1 text-white rounded mb-3 placeholder:text-blue-300 placeholder:italic font-medium bg-zinc-400 ring-2 ring-offset-2 ring-offset-blue-200 ring-blue-400 outline-none"
+        type="submit" value="submit">
+    </form>
+  </div>
+
+
+  <script>
+    function update(elem){
+      if(elem.value >= 1000 && elem.value <= 9999){
+        document.querySelector('#submit').setAttribute('disabled', 'false');
+        document.querySelector('#submit').style.backgroundColor = 'rgb(59 130 246)'
+      }else{
+        document.querySelector('#submit').setAttribute('disabled', 'true');
+        document.querySelector('#submit').style.backgroundColor = 'rgb(161 161 170)'
+      }
+    }
+  </script>
+</body>
+
+</html>

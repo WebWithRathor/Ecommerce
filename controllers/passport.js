@@ -14,7 +14,7 @@ router.post('/register', function (req, res, next) {
   userModel.register(userData, req.body.password)
     .then(function (registereduser) {
       passport.authenticate('local')(req, res, function () {
-        res.redirect('/render/home')
+        res.redirect('/render/otp')
       })
     })
 })
