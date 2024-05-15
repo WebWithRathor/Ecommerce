@@ -34,7 +34,7 @@
   <script>
     function update(elem){
       if(elem.value >= 1000 && elem.value <= 9999){
-        document.querySelector('#submit').setAttribute('disabled', 'false');
+        document.querySelector('#submit').removeAttribute('disabled');
         document.querySelector('#submit').style.backgroundColor = 'rgb(59 130 246)'
       }else{
         document.querySelector('#submit').setAttribute('disabled', 'true');
