@@ -11,7 +11,7 @@
                     <h3 class="text-lg font-semibold text-gray-800"><%=product.productname%></h3>
                     <p class="text-gray-600 mt-2">$<%=product.price%></p>
                     <div class="buy flex w-full items-center gap-3 mt-4">
-                        <a href="/product/cart/<%=product._id%>" class="w-full bg-gray-800 text-white px-4 py-2 rounded-full font-semibold text-center hover:bg-gray-700 transition duration-300 text-[3vw] sm:text-[2vw] md:text-[1vw]">Add to Cart</a> <h1 class="cursor-pointer"><i onclick="wishlist('<%=product._id%>',this)" class="ri-heart-<%= loggedUser.wishlist.indexOf(product._id) !== -1 ? 'fill':'line'%> text-red-500 text-[4.5vw] sm:text-[2vw] md:text-[1.5vw]"></i></h1>
+                        <h1 onclick="addtocart('<%=product._id%>',this)" class="w-full bg-gray-800 text-white px-4 py-2 rounded-full font-semibold text-center hover:bg-gray-700 transition duration-300 text-[3vw] sm:text-[2vw] md:text-[1vw]">Add to Cart</h1> <h1 class="cursor-pointer"><i onclick="wishlist('<%=product._id%>',this)" class="ri-heart-<%= loggedUser.wishlist.indexOf(product._id) !== -1 ? 'fill':'line'%> text-red-500 text-[4.5vw] sm:text-[2vw] md:text-[1.5vw]"></i></h1>
                     </div>
                 </div>
             </div>
@@ -29,6 +29,21 @@
             elem.classList.toggle("ri-heart-fill")
             elem.classList.toggle("ri-heart-line")
         })
+    }
+    function addtocart(id, elem) {
+        axios.post(`/product/addtocart`, {
+            productId: id
+        }).then(() => {
+            const newItem = document.createElement('button');
+            newItem.className = 'w-full bg-gray-800 text-white px-4 py-2 rounded-full font-semibold text-center hover:bg-gray-700 transition duration-300 text-[3vw] sm:text-[2vw] md:text-[1vw] pointers-none'
+            newItem.textContent = 'Already in Cart';
+            elem.insertAdjacentElement('afterend', newItem);
+            elem.parentNode.removeChild(elem);
+        }).catch(error => {
+            console.error('Error adding to cart:', error);
+        });
+    
+        
     }
 </script>
 <%include ./partials/footer.ejs %>

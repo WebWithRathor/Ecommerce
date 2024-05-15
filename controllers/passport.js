@@ -4,6 +4,9 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const userModel = require('../models/userModel.js');
 
+
+
+
 passport.use(new localStrategy(userModel.authenticate()));
 
 router.post('/register', function (req, res, next) {
@@ -25,7 +28,7 @@ router.get('/logout', function (req, res, next) {
   req.logout(function (err) {
     console.log(err);
   });
-  res.redirect('/login');
+  res.redirect('/render/login');
 });
 
 

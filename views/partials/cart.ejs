@@ -1,19 +1,27 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+    integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    function addtocart(id){
-        axios.post(`/product/addtocart` ,{
-            productId:id
-        }).then(function(response){
-            if(!response.data){
-                alert('already In Cart.')
-            }
-        })
+    function addtocart(id, elem) {
+        axios.post(`/product/addtocart`, {
+            productId: id
+        }).then(() => {
+            const newItem = document.createElement('button');
+            newItem.className = 'mt-4 bg-zinc-600  text-white py-2 px-4 rounded pointers-none'
+            newItem.textContent = 'Already in Cart';
+            elem.insertAdjacentElement('afterend', newItem);
+            elem.parentNode.removeChild(elem);
+        }).catch(error => {
+            console.error('Error adding to cart:', error);
+        });
+    
     }
+    
 
-    function updatePrice(elem,id){
-        axios.get('/update',{
-            id:id,
-            qty:elem.parentNode.querySelector('input').value
+    function updatePrice(elem, id) {
+        axios.get('/update', {
+            id: id,
+            qty: elem.parentNode.querySelector('input').value
         })
     }
 </script>

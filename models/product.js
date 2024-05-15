@@ -8,7 +8,7 @@ const productSchema = mongoose.Schema({
     ref: 'user'
   },
   images:[String],
-  price:String
+  price:Number
 })
 
 

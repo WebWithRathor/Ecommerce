@@ -1,0 +1,143 @@
+<%include ./partials/header.ejs %>
+    <div class="content w-full p-6">
+        <h1 class="text-xl font-medium p-4 rounded-md shadow bg-white">Shopping cart</h1>
+        <div class="cart-panel grid grid-cols-4 mt-2  gap-2 h-[74vh]">
+            <div class="products col-span-3 overflow-y-auto scrollbar bg-white rounded-md shadow h-full px-4 pt-4">
+
+                <%loggedUser.cart.products.forEach((product)=>{%>
+                    <div class="border-b shadow border-gray-200 pb-4 px-5 mb-4 ">
+                        <div class="flex h-full justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <img src="/images/<%=product.product.images[0]%>" alt="Product"
+                                    class="w-16 h-16 mr-5 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold">
+                                        <%=product.product.productname%>
+                                    </h3>
+                                    <p class="text-gray-600">Price: $<%=product.product.price%>
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <i onclick="remove('<%=product._id%>',this)" class="ri-delete-bin-line mr-2"></i>
+                                <input onchange="updateQuantity('<%=product._id%>',this)" type="number" min="1" max="10"
+                                    class="w-[2.9vw] pl-2  h-8 border border-gray-300 rounded-md"
+                                    value="<%=product.quantity%>">
+                            </div>
+                        </div>
+                    </div>
+                    <%})%>
+
+            </div>
+            <div class="total rounded-md bg-white shadow p-4 shadow h-fit">
+                <h1 class="text-2xl py-3 border-b font-medium">Summary</h1>
+                <h1 class="text-lg py-2 border-y font-medium">Estimate shopping tax</h1>
+                <div class="price flex justify-between py-3">
+                    <div class="heading">
+                        <h1>Subtotal</h1>
+                        <h1>Shopping</h1>
+                    </div>
+                    <div class="costs text-right">
+                        <h1>$<%=loggedUser.cart.price%>
+                        </h1>
+                        <h1>$0.00</h1>
+                    </div>
+                </div>
+                <h1 class="py-3 border-t text-2xl font-medium flex justify-between">Order total <span id="price">$
+                        <%=loggedUser.cart.price%>
+                    </span></h1>
+                <button id="rzp-button1"
+                    class="hover:bg-blue-700 w-full py-2 text-center rounded bg-blue-500 text-white font-medium text-lg mt-3">Checkout</button>
+
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+
+            $(document).ready(function () {
+                const settings = {
+                    "url": "/create/orderId",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "cart": "<%=loggedUser.cart._id %>"
+                    }),
+                };
+
+                //creates new orderId everytime
+                $.ajax(settings).done(function (response) {
+                    const options = {
+                        "key": "rzp_test_kBZDmBgpiP5upY", // Enter the Key ID generated from the Dashboard
+                        "amount": response.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "currency": "INR",
+                        "name": "ShopiDev",
+                        "description": "Cart Checkout",
+                        "image": "https://example.com/your_logo",
+                        "order_id": response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "handler": function (res) {
+                            const verify = {
+                                "url": "/api/payment/verify",
+                                "method": "POST",
+                                "timeout": 0,
+                                "headers": {
+                                    "Content-Type": "application/json"
+                                },
+                                "data": JSON.stringify({ res ,cart:'<%=loggedUser.cart._id%>'}),
+                            }
+                            $.ajax(verify).done(function (isverify) {
+                                if(isverify){
+                                    alert("Payment done");
+                                }else{
+                                    alert("Payment failed");
+                                    
+                                }
+                                window.location.href = "/user/cart";
+                            })
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    };
+                    var rzp1 = new Razorpay(options);
+                    rzp1.on('payment.failed', function (response) {
+                        alert(response.error.code);
+                        alert(response.error.description);
+                        alert(response.error.source);
+                        alert(response.error.step);
+                        alert(response.error.reason);
+                        alert(response.error.metadata.order_id);
+                        alert(response.error.metadata.payment_id);
+                    });
+                    document.getElementById('rzp-button1').onclick = function (e) {
+                        rzp1.open();
+                        e.preventDefault();
+                    }
+
+                });
+            });
+
+            function updateQuantity(id, elem) {
+                if (elem.value > 11) {
+                    elem.value = 10;
+                    return alert('max quantity is 10')
+                }
+                fetch(`/user/quantity/${id}/${elem.value}`).then((raw) => raw.json().then((response) => {
+                    document.querySelector("#price").textContent = '$' + response
+                }))
+            }
+
+            function remove(id, elem) {
+                axios.post(`/user/remove/${id}`).then((res) => {
+                    console.log(res.data);
+                    if(!res.data){
+                        location.reload();
+                    }
+                    elem.parentNode.parentNode.parentNode.parentNode.removeChild(elem.parentNode.parentNode.parentNode);
+                })
+            }
+
+        </script>

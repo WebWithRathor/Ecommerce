@@ -1,34 +1,65 @@
 <%include ./partials/header.ejs %>
-<div class="content w-full" >
-    <div class="bg-white shadow-md rounded-lg p-6 m-3 mt-5">
-        <h2 class="text-xl font-semibold mb-4">Shopping Cart</h2>
-        <div class="border-b border-gray-200 pb-4 mb-4">
-                <div class="flex justify-between items-center mb-2">
-                    <div class="flex items-center">
-                        <img src="/images/cart.image" alt="Product" class="w-16 h-16 mr-5 rounded-full object-cover">
-                        <div>
-                            <h3 class="font-semibold">
-                                cart.productname
-                            </h3>
-                            <p class="text-gray-600">Price: cart.price
-                            </p>
+    <div class="content w-full p-6">
+        <h1 class="text-xl font-medium p-4 rounded-md shadow bg-white flex justify-between items-center">Shopping cart
+            <a href="/user/checkout"><span
+                    class="px-5 <%=loggedUser.cart ? 'initial' : 'hidden' %> py-2 bg-blue-500 rounded-md text-white text-sm">Checkout
+                    <i class="ri-arrow-right-line"></i> </span></a></h1>
+        <div class="cart-panel mt-2  gap-2 h-[73vh]">
+            <%if(loggedUser.cart){%>
+                <%loggedUser.cart.products.forEach((product)=>{%>
+                    <div class="border-b bg-white rounded-md shadow border-gray-200  px-5 py-3 mb-2 ">
+                        <div class="flex h-full justify-between items-center ">
+                            <div class="flex items-center">
+                                <img src="/images/<%=product.product.images[0]%>" alt="Product"
+                                    class="w-16 aspect-square mr-5 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold">
+                                        <%=product.product.productname%>
+                                    </h3>
+                                    <p class="text-gray-600">Price: $<%=product.product.price%>
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <i onclick="remove('<%=product._id%>',this)" class="ri-delete-bin-line mr-2"></i>
+                                <input onchange="updateQuantity('<%=product._id%>',this)" type="number" min="1" max="10"
+                                    class="w-[2.9vw] pl-2  h-8 border border-gray-300 rounded-md"
+                                    value="<%=product.quantity%>">
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <a href="/remove/cart._id">
-                            <i class="ri-delete-bin-line mr-2"></i>
-                        </a>
-                        <input type="number" min="1" class="w-12 h-8 border border-gray-300 rounded-md px-2" value="1">
-                    </div>
-                </div>
+                    <%})%>
 
+                        <%}else{%>
+                            <div class="h-[73vh] flex items-center justify-center w-full">
+
+                                <h1 class="text-3xl font-medium ">Cart is empty <i class="ri-shopping-cart-line"></i>
+                                </h1>
+                            </div>
+                            <%}%>
 
         </div>
-        <div class="flex justify-between items-center">
-            <p class="text-lg font-semibold">Total:</p>
-            <p class="text-lg amount">$total
-            </p>
-        </div>
-        <button id="rzp-button1" class="bg-blue-500 text-white rounded-md px-4 py-2 mt-4 inline-block">Checkout</button>
-    </div>
-</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+    integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            function updateQuantity(id, elem) {
+                if (elem.value > 11) {
+                    elem.value = 10;
+                    return alert('max quantity is 10')
+                }
+                fetch(`/user/quantity/${id}/${elem.value}`).then((raw) => raw.json().then((response) => {
+                    document.querySelector("#price").textContent = '$' + response
+                }))
+            }
+            function remove(id, elem) {
+                axios.post(`/user/remove/${id}`).then((res) => {
+                    console.log(res.data);
+                    if(!res.data){
+                        location.reload();
+                    }
+                    elem.parentNode.parentNode.parentNode.parentNode.removeChild(elem.parentNode.parentNode.parentNode);
+                })
+            }
+
+        </script>

@@ -20,10 +20,10 @@ const userSchema = mongoose.Schema({
     {type:mongoose.Schema.Types.ObjectId,
     ref:'product'}
   ],
-  cart:[
-    {type:mongoose.Schema.Types.ObjectId,
-    ref:'product'}
-  ],
+  cart:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'cart'
+  },
   selled:[[
     {type:mongoose.Schema.Types.ObjectId,
     ref:'product'}
