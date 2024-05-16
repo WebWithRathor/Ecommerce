@@ -57,7 +57,7 @@
 
             $(document).ready(function () {
                 const settings = {
-                    "url": "/create/orderId",
+                    "url": "/razorpay/create/orderId",
                     "method": "POST",
                     "timeout": 0,
                     "headers": {
@@ -77,10 +77,10 @@
                         "name": "ShopiDev",
                         "description": "Cart Checkout",
                         "image": "https://example.com/your_logo",
-                        "order_id": response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "order_id":response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                         "handler": function (res) {
                             const verify = {
-                                "url": "/api/payment/verify",
+                                "url": "/razorpay/api/payment/verify",
                                 "method": "POST",
                                 "timeout": 0,
                                 "headers": {

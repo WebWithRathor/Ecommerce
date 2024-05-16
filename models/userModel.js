@@ -5,6 +5,10 @@ const userSchema = mongoose.Schema({
   username:String,
   password:String,
   email:String,
+  isVerified:{
+    type:Boolean,
+    default:false
+  },
   profileImg:{
     type:String,
     default:'def.jpg'
@@ -24,10 +28,14 @@ const userSchema = mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:'cart'
   },
-  selled:[[
+  sold:[
     {type:mongoose.Schema.Types.ObjectId,
     ref:'product'}
-  ],]
+  ],
+  orders:[
+    {type:mongoose.Schema.Types.ObjectId,
+    ref:'order'}
+  ]
 })
 
 userSchema.plugin(plm);
