@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const upload = require('../routes/multer.js');
-const productModel = require('../models/product.js');
 const userModel = require('../models/userModel.js');
 const cartModel = require('../models/carts.js');
 const cartProductModel = require('../models/cartsProduct.js');
+const orderModel = require('../models/order.js');
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
@@ -57,14 +57,19 @@ router.get('/checkout', isLoggedIn, async (req, res) => {
         res.status(500).send('Internal Server Error' + error.message);
     }
 });
-router.get('/wishlist', isLoggedIn, async (req, res) => {
-    const loggedUser = await userModel.findOne({ username: req.user.username }).populate('wishlist');
-    console.log(loggedUser.wishlist);
-    res.render('wishlist.ejs', { loggedUser });
+router.get('/list/:type', isLoggedIn, async (req, res) => {
+    let loggedUser;
+    console.log(req.params.type)
+    if(req.params.type === 'wishlist'){
+        loggedUser = await userModel.findOne({ username: req.user.username }).populate('wishlist');
+    }else{
+        loggedUser = await userModel.findOne({ username: req.user.username }).populate({path:'orders',populate:{path:'products.product'}});
+    }
+    console.log(loggedUser);
+    res.render('wishlist.ejs', { loggedUser,type:req.params.type });
 });
 
 router.post('/edit', upload.single('profileImg'), async (req, res) => {
-    console.log(req.body)
     const loggedUser = await userModel.findOneAndUpdate({ username: req.user.username }, { username: req.body.username, address: req.body.address, fullname: req.body.fullname, email: req.body.email }, { new: true });
     if (req.file) {
         loggedUser.profileImg = req.file.filename;
@@ -90,6 +95,15 @@ router.get('/quantity/:cartProduct/:value', isLoggedIn, async (req, res, next) =
     await cart.save();
     await cartProduct.save();
     res.json(cart.price);
+})
+
+
+router.post('/order/delete/:id',async (req,res,next)=>{
+    try {
+        await orderModel.findOneAndDelete({_id:req.params.id})
+    } catch (error) {
+        log(error)
+    }
 })
 
 

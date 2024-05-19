@@ -48,9 +48,7 @@
                     elem.value = 10;
                     return alert('max quantity is 10')
                 }
-                fetch(`/user/quantity/${id}/${elem.value}`).then((raw) => raw.json().then((response) => {
-                    document.querySelector("#price").textContent = '$' + response
-                }))
+                fetch(`/user/quantity/${id}/${elem.value}`)
             }
             function remove(id, elem) {
                 axios.post(`/user/remove/${id}`).then((res) => {

@@ -1,15 +1,16 @@
 <%include ./partials/header.ejs %>
-<div class="content  px-5 pt-7 pb-6 w-full min-h-[60vh] md:min-h-[49vh]">
+<div class="content  px-5 pt-7 pb-6 w-full min-h-[60vh] md:min-h-[52.7vh]">
     <h1 class="text-2xl font-medium mb-5">Featured products</h1>
     <div class="products grid grid-cols-1 w-full lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 gap-10">
         <%products.forEach(function(product){%>
             <div class="bg-white w-full rounded-lg shadow h-[45vh]  md:h-[50vh] pb-4 ">
-                <a href="/product/show/<%=product._id%>">
-                    <img src="/images/<%=product.images[0]%>" alt="Product 1" class=" h-[60%] w-full bg-red-500 object-cover rounded-t-lg">
+                <a style="scroll-behavior: smooth; scroll-snap-type: x mandatory;" href="/product/show/<%=product._id%>" class="scrollbar h-[60%] w-full p-2 rounded-t-lg overflow-x-auto flex gap-2">
+                    <img style="scroll-snap-align: center;" src="/images/<%=product.images[0]%>" alt="Product 1" class="w-full shrink-0 object-cover">
+                    <img style="scroll-snap-align: center;" src="/images/<%=product.images[1]%>" alt="Product 1" class="w-full shrink-0 object-cover">
                 </a>
                 <div class="p-4">
-                    <h3 class="text-lg font-semibold text-gray-800"><%=product.productname%></h3>
-                    <p class="text-gray-600 mt-2">$<%=product.price%></p>
+                    <h3 class="text-md font-semibold text-gray-800"><%=product.productname.substring(0,35)%><%=product.productname.length > 35 ? '...' : '' %></h3>
+                    <p class="text-gray-600 mt-1.5">$<%=product.price%></p>
                     <div class="buy flex w-full items-center gap-3 mt-4">
                         <h1 onclick="addtocart('<%=product._id%>',this)" class="w-full bg-gray-800 text-white px-4 py-2 rounded-full font-semibold text-center hover:bg-gray-700 transition duration-300 text-[3vw] sm:text-[2vw] md:text-[1vw]">Add to Cart</h1> <h1 class="cursor-pointer"><i onclick="wishlist('<%=product._id%>',this)" class="ri-heart-<%= loggedUser.wishlist.indexOf(product._id) !== -1 ? 'fill':'line'%> text-red-500 text-[4.5vw] sm:text-[2vw] md:text-[1.5vw]"></i></h1>
                     </div>

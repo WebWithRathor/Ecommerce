@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const productModel = require('../models/product.js');
 const userModel = require('../models/userModel.js');
-const cartProductModel = require('../models/cartsProduct.js');
 const otpModel = require('../models/otp.js');
 const sendEmail = require('./nodemailer.js').sendEmail
 
@@ -23,7 +22,6 @@ router.get('/login', (req, res) => {
 
 router.get('/home', isLoggedIn, async (req, res) => {
     const loggedUser = await userModel.findOne({ username: req.user.username }).populate({ path: "cart", populate: 'products' });
-    console.log(loggedUser);
     if (!loggedUser.isVerified) {
         await otpModel.deleteMany({ user: loggedUser._id })
         const otp = await otpModel.create({

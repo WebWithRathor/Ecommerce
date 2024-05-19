@@ -17,7 +17,8 @@ passport.use(new GoogleStrategy({
   const neWuser = userModel.create({
     username: profile.displayName,
     email: profile.emails[0].value,
-    type: 'buyer'
+    type: 'buyer',
+    isVerified: true
   })
   cb(null, neWuser);
 }));

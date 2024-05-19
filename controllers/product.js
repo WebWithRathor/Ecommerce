@@ -31,8 +31,8 @@ router.post('/sell', isLoggedIn, upload.array('productImage', 4), async function
 router.get('/show/:productId', isLoggedIn, async function (req, res, next) {
     const product = await productModel.findOne({ _id: req.params.productId })
     const Incart = (await cartProductModel.findOne({ user: req.user.id, product: product._id }) ? true : false);
-    const loggedInUser = await userModel.findOne({ _id: req.user.id });
-    res.render('products.ejs', { product, loggedInUser, Incart });
+    const loggedUser = await userModel.findOne({ _id: req.user.id });
+    res.render('products.ejs', { product, loggedUser, Incart });
 })
 
 router.post('/wishlist/:id', async function (req, res) {

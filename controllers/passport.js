@@ -58,7 +58,6 @@ router.get('/logout', function (req, res, next) {
 router.post('/verify',async function (req,res,next){
   const otp = await otpModel.findOne({ user: req.user.id });
   const loggedUser = await userModel.findOne({ _id: req.user.id });
-  console.log(req.body.otp,otp.otp);
   if(req.body.otp == otp.otp){
     loggedUser.isVerified = true;
     await loggedUser.save()

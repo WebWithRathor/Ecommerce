@@ -1,22 +1,54 @@
 <% include ./partials/header.ejs %>
 <% include ./partials/left.ejs %>
+<% if(loggedUser[type].length > 0){%>
 <div class="w-3/4 grid  grid-cols-4 gap-4 scrollbar  h-[64.5vh] scrollbar overflow-y-auto">
-    <%loggedUser.wishlist.forEach(function(product){%>
-        <div class="bg-white shrink-0 h-fit p-6 rounded-lg shadow-md">
-            <img  src="/images/<%=product.images[0]%>" alt="Product Image"
-            class=" h-[20vh] w-full object-cover mb-4 rounded-md">
-            <h3 class="text-lg font-semibold mb-2"><%=product.productname%></h3>
-            <p class="text-gray-600"><%=product.description%></p>
-            <p class="text-gray-700 mt-2"><%=product.price%></p>
-            <div class="buttons flex gap-2 items-center">
-                <a href="/product/show/<%=product._id%>" >
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-3 rounded mt-4 block">View Details</button>
-                </a>
+    <%if(type === 'wishlist'){%>
+        <%loggedUser.wishlist.forEach(function(product){%>
+            <div class="bg-white shrink-0 h-[55vh] p-6 rounded-lg shadow-md">
+                <img  src="/images/<%=product.images[0]%>" alt="Product Image"
+                class=" h-[20vh] w-full object-cover mb-4 rounded-md">
+                <h3 class="text-md font-semibold mb-2"><%=product.productname%></h3>
+                <p class="text-gray-600"><%=product.description.substring(0,55)%>...</p>
+                <p class="text-gray-700 mt-2">$ <%=product.price%></p>
+                <div class="buttons flex gap-2 items-center">
+                    <a href="/product/show/<%=product._id%>" >
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2 px-3 rounded mt-4 block">View Details</button>
+                    </a>
                 </button>
             </div>
         </div>
-    <%})%>
-</div>
+        <%})%>
+        <%}else{%>
+            <%loggedUser.orders.forEach(function(order){%>
+                <div class="bg-white shrink-0 h-fit p-6 rounded-lg shadow-md">
+                    <div style="scroll-snap-type:x mandatory; scroll-behavior: smooth;" class="scrollbar images h-[20vh] w-full mb-4 rounded-md flex overflow-x-auto">
+                        <img  src="/images/<%=order.products[0].product.images[0]%>" alt="Product Image"
+                        style="scroll-snap-align: center;"  class=" w-full shrink-0 object-cover h-full ">
+                        <img  src="/images/<%=order.products[0].product.images[1]%>" alt="Product Image"
+                        style="scroll-snap-align: center;"  class=" w-full shrink-0 object-cover h-full ">
+                        
+                    </div>
+                    <p class="text-gray-800"><span class="font-bold">Ordered date : </span><%=order.createdDate.toLocaleDateString('en-US', { // You can change 'en-US' to your preferred locale
+                        month: 'long',
+                        year: 'numeric',
+                        day: 'numeric'
+                    })%></p>
+                    <p class="text-gray-800 mt-1"><span class="font-bold">Total amount : </span>$<%=order.amount%></p>
+                    <div class="buttons flex gap-2 items-center">
+                        <button onclick="deleteOrder(this,'<%=order._id%>')" class="bg-red-600 hover:bg-red-700 text-white font-medium text-sm py-2 px-3 rounded mt-4 block">Delete order</button>
+                    </button>
+                </div>
+            </div>
+            <%})%>
+            <%}%>
+        </div>
+        
+    <%}else{%>
+        <div class="h-[64.5vh] w-full flex items-center justify-center">
+            <h1 class="text-3xl font-medium">No <%=type%> <i class="ri-shopping-bag-4-line"></i>!</h1>
+        </div>
+        <%}%>
+    
 </div>
 </div>
 </div>
@@ -27,3 +59,12 @@
     </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+    integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    function deleteOrder(elem,orderid){
+        elem.parentNode.parentNode.parentNode.removeChild(elem.parentNode.parentNode);
+        axios.post(`/user/order/delete/${orderid}`)
+ }
+</script>
